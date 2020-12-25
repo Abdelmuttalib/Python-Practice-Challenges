@@ -59,6 +59,7 @@ Note: |x| is the absolute value of x
 """
 
    ######### SOLUTION CODE ##########
+   
 def diagonalDifference(arr):
     primary_diagonal = 0
     secondary_diagonal = 0
