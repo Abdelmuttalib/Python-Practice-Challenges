@@ -87,10 +87,11 @@ def timeConversion(s):
 
 
 
-## Simple Test
+## Simple Tests with different inputs
 print(timeConversion('04:44:01PM'))
-
+print(timeConversion('11:59:59PM'))
 """
 Output:
 16:44:01
+23:59:59
 """
