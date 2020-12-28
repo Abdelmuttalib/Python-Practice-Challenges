@@ -75,5 +75,61 @@ The same hackerX missile destroys the missile that is hitting its city at t = 5.
 
     ######### SOLUTION CODE #########
 
+missile_1 = [0, 0]
+    minimum_missiles = 1
+    
+    for i in missiles:
+        print("missiles IN BEGINNING:",missiles)
+        print("VALUE OF MISSILES 1:",missile_1)
+        print("Value of i :", i)
+        if i == missile_1:
+            print("First Success:", i, "AND", missile_1)
+            
+        current_time, current_freq = missile_1[0], missile_1[1]
+        desired_time, desired_freq = i[0], i[1]
+        print("DESIRED TIME, FREQUENCY:", desired_time, desired_freq)
+        print("CURRENT TIME, FREQUENCY:", current_time, current_freq)
+        
+        adjusted_freq = 0
+        diff = abs(desired_freq - current_freq)
+        print("DIFF ValUe:", diff)
 
-def missileDefend(missiles):
+        if desired_freq > current_freq:
+            print("HIGHER, GO UP:", desired_freq, current_freq)
+            adjusted_freq = current_freq + diff
+            print("FIXED FREQ:", adjusted_freq)
+            adjusted_time = current_time + diff
+
+        elif desired_freq < current_freq:
+            print("LOWER, GO DOWN:", desired_freq, current_freq)
+            adjusted_freq = current_freq - diff
+            print("FIXED FREQ:", adjusted_freq)
+            adjusted_time = current_time + diff
+
+        elif abs(desired_freq - current_freq) == 0:
+            adjusted_freq = desired_freq
+            adjusted_time = desired_time
+
+        
+        print("ADJUSTED TIME, FREQUENCY:", adjusted_time, adjusted_freq)
+        
+        if adjusted_time == desired_time and adjusted_freq == desired_freq:
+            missile_1[0], missile_1[1] = adjusted_time, adjusted_freq
+            print("ADJUSTED SUCCESS:", i, "AND", missile_1)
+            
+        elif (adjusted_time + 1) == desired_time and adjusted_freq == desired_freq:
+            missile_1[0], missile_1[1] = adjusted_time, adjusted_freq
+            print("add TO TIME SUCCESS:", i, "AND", missile_1)
+        
+        elif (adjusted_time + 2) == desired_time and adjusted_freq == desired_freq:
+            missile_1[0], missile_1[1] = adjusted_time, adjusted_freq
+            print("ADD TWO SUCCESS:", i, "AND", missile_1)
+            
+        else:
+            missile_2 = i
+            print("CREATED ONE SUCCESS:", i, "AND", missile_2)
+            minimum_missiles += 1
+        
+    return minimum_missiles
+        
+        ##print("AT END: ",missiles)
