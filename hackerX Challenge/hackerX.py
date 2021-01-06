@@ -75,61 +75,117 @@ The same hackerX missile destroys the missile that is hitting its city at t = 5.
 
     ######### SOLUTION CODE #########
 
-missile_1 = [0, 0]
-    minimum_missiles = 1
-    
+
+def defend(missiles):
+    mini = 1
+    initial_missile = missiles[0]
+    arr = []
+    arr.append(initial_missile)
+    initial = [0, 0]
     for i in missiles:
-        print("missiles IN BEGINNING:",missiles)
-        print("VALUE OF MISSILES 1:",missile_1)
-        print("Value of i :", i)
-        if i == missile_1:
-            print("First Success:", i, "AND", missile_1)
-            
-        current_time, current_freq = missile_1[0], missile_1[1]
-        desired_time, desired_freq = i[0], i[1]
-        print("DESIRED TIME, FREQUENCY:", desired_time, desired_freq)
-        print("CURRENT TIME, FREQUENCY:", current_time, current_freq)
-        
-        adjusted_freq = 0
-        diff = abs(desired_freq - current_freq)
-        print("DIFF ValUe:", diff)
+        place_h = initial_missile
 
-        if desired_freq > current_freq:
-            print("HIGHER, GO UP:", desired_freq, current_freq)
-            adjusted_freq = current_freq + diff
-            print("FIXED FREQ:", adjusted_freq)
-            adjusted_time = current_time + diff
 
-        elif desired_freq < current_freq:
-            print("LOWER, GO DOWN:", desired_freq, current_freq)
-            adjusted_freq = current_freq - diff
-            print("FIXED FREQ:", adjusted_freq)
-            adjusted_time = current_time + diff
+        if i == initial_missile:
+            print("INITIAL SUCCESS:", i, "AND", initial_missile)
 
-        elif abs(desired_freq - current_freq) == 0:
-            adjusted_freq = desired_freq
-            adjusted_time = desired_time
-
-        
-        print("ADJUSTED TIME, FREQUENCY:", adjusted_time, adjusted_freq)
-        
-        if adjusted_time == desired_time and adjusted_freq == desired_freq:
-            missile_1[0], missile_1[1] = adjusted_time, adjusted_freq
-            print("ADJUSTED SUCCESS:", i, "AND", missile_1)
-            
-        elif (adjusted_time + 1) == desired_time and adjusted_freq == desired_freq:
-            missile_1[0], missile_1[1] = adjusted_time, adjusted_freq
-            print("add TO TIME SUCCESS:", i, "AND", missile_1)
-        
-        elif (adjusted_time + 2) == desired_time and adjusted_freq == desired_freq:
-            missile_1[0], missile_1[1] = adjusted_time, adjusted_freq
-            print("ADD TWO SUCCESS:", i, "AND", missile_1)
-            
         else:
-            missile_2 = i
-            print("CREATED ONE SUCCESS:", i, "AND", missile_2)
-            minimum_missiles += 1
-        
-    return minimum_missiles
-        
-        ##print("AT END: ",missiles)
+            print("i VALUE", i)
+            current_t, current_f = initial_missile[0], initial_missile[1]
+            desired_t, desired_f = i[0], i[1]
+            print("CURRENT: ", current_t, current_f)
+            print("DESIRED: ", desired_t, desired_f)
+
+            diff_t, diff_f = abs(desired_t - current_t), abs(desired_f - current_f)
+            print("DIFF T&F: ", diff_t, diff_f)
+
+
+            if (desired_t >= current_t) and ((current_f + diff_f == desired_f) or (current_f - diff_f == desired_f)) and (current_t + diff_f <= desired_t):
+                if desired_f > current_f:
+                    initial[0], initial[1] = current_t + diff_f + (diff_t - diff_f), current_f + diff_f
+                    print("DESIRED > CURRENT: ", desired_f, desired_t)
+                    print("MISSILE:", initial)
+                    mini += 1
+                    print("MINI, ", mini)
+                elif desired_f < current_f:
+                    initial[0], initial[1] = current_t + diff_f + (diff_t - diff_f), current_f - diff_f
+                    print("DESIRED < CURRENT: ", desired_f, desired_t)
+                    print("MISSILE:", initial)
+                    mini += 1
+                    print("MINI, ", mini)
+                elif diff_f == 0 or diff_t == 0:
+                    if diff_f == 0:
+                        initial[1] = desired_f
+                        initial[0] = desired_t
+                        mini += 1
+                    elif diff_t == 0:
+                        print("NO, SAME TIMING. MISSED")
+                    elif diff_t == 0 and diff_f == 0:
+                        print("BOTH DIFF's ZEROS")
+            else:
+                for k in range(len(arr)):
+                    print("KKKK: ", arr[k])
+                    sec_current_t, sec_current_f = arr[k][0], arr[k][1]
+                    print("CHECK ARR: ", arr)
+                    print("SEC CURRENT T: ", sec_current_t, "SEC CURRENT F: ", sec_current_f)
+                    print("DIFF F: ", diff_f)
+                    sec_diff_t, sec_diff_f = abs(sec_current_t - desired_t), abs(sec_current_f - desired_f)
+
+                    if (desired_t >= sec_current_t) and ((sec_current_f + sec_diff_f == desired_f) or (sec_current_f - sec_diff_f == desired_f)) and (sec_current_t + sec_diff_f <= desired_t):
+                        if desired_f > sec_current_f:
+                            arr[k][0], arr[k][1] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f), sec_current_f + sec_diff_f
+                            print("AFTER ELSE --- DESIRED > CURRENT: ", desired_f, desired_t)
+                            print("MISSILE:", arr[k])
+                            holder = arr[k]
+                            mini += 1
+                        elif desired_f < sec_current_f:
+                            arr[k][0], arr[k][1] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f), sec_current_f - sec_diff_f
+                            print("AFTER ELSE --- DESIRED < CURRENT: ", desired_f, desired_t)
+                            print("MISSILE:", arr[k])
+                            holder = arr[k]
+                            mini += 1
+                        elif sec_diff_f == 0 or sec_diff_t == 0:
+                            if sec_diff_f == 0:
+                                arr[k][1] = desired_f
+                                arr[k][0] = desired_t
+                                holder = arr[k]
+                                mini += 1
+                    else:
+                        holder = []
+                if len(holder) == 0:
+                    make_another = i
+                    print("Created HIT: ", make_another)
+                    print("arr: ", arr)
+                    arr.append(make_another)
+                print("FINISH ???: ", arr, " \ ")
+
+    minimum_missiles = len(arr)
+    print("Last ANSWER: ", minimum_missiles)
+
+    print("Mini: ",mini)
+    print("ARR LENGTH: ", len(arr))
+    print("FINAL ARR: ", arr)
+## Test Case 1
+#defend([[65, 844],[70, 993],[201, 427],[348, 899],[388, 268],[440, 416],[459, 421],[459, 796],[744, 291],[870, 121]])
+
+# Test Case 2
+defend([
+[5, 687],
+[49, 338],
+[63, 853],
+[93, 150],
+[129, 535],
+[130, 831],
+[140, 841],
+[142, 591],
+[144, 581],
+[271, 594],
+[271, 970],
+[287, 495],
+[294, 191],
+[333, 150],
+[488, 643],
+[755, 816],
+[816, 341],
+[848, 779],
+[880, 276]])
