@@ -103,20 +103,23 @@ def defend(missiles):
             if (desired_t >= current_t) and ((current_f + diff_f == desired_f) or (current_f - diff_f == desired_f)) and (current_t + diff_f <= desired_t):
                 if desired_f > current_f:
                     initial[0], initial[1] = current_t + diff_f + (diff_t - diff_f), current_f + diff_f
+                    initial_missile[0], initial_missile[1] = initial[0], initial[1]
                     print("DESIRED > CURRENT: ", desired_f, desired_t)
                     print("MISSILE:", initial)
                     mini += 1
                     print("MINI, ", mini)
                 elif desired_f < current_f:
                     initial[0], initial[1] = current_t + diff_f + (diff_t - diff_f), current_f - diff_f
+                    initial_missile[0], initial_missile[1] = initial[0], initial[1]
                     print("DESIRED < CURRENT: ", desired_f, desired_t)
                     print("MISSILE:", initial)
                     mini += 1
                     print("MINI, ", mini)
-                elif diff_f == 0 or diff_t == 0:
-                    if diff_f == 0:
+                elif diff_f == 0:
+                    if diff_f == 0 and (current_t + diff_t <= desired_t):
                         initial[1] = desired_f
                         initial[0] = desired_t
+                        initial_missile[0], initial_missile[1] = initial[0], initial[1]
                         mini += 1
                     elif diff_t == 0:
                         print("NO, SAME TIMING. MISSED")
@@ -130,28 +133,39 @@ def defend(missiles):
                     print("SEC CURRENT T: ", sec_current_t, "SEC CURRENT F: ", sec_current_f)
                     print("DIFF F: ", diff_f)
                     sec_diff_t, sec_diff_f = abs(sec_current_t - desired_t), abs(sec_current_f - desired_f)
+                    holder = []
 
                     if (desired_t >= sec_current_t) and ((sec_current_f + sec_diff_f == desired_f) or (sec_current_f - sec_diff_f == desired_f)) and (sec_current_t + sec_diff_f <= desired_t):
                         if desired_f > sec_current_f:
-                            arr[k][0], arr[k][1] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f), sec_current_f + sec_diff_f
+                            arr[k][0] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f)
+                            arr[k][1] = sec_current_f + sec_diff_f
                             print("AFTER ELSE --- DESIRED > CURRENT: ", desired_f, desired_t)
                             print("MISSILE:", arr[k])
                             holder = arr[k]
                             mini += 1
+                            break
                         elif desired_f < sec_current_f:
-                            arr[k][0], arr[k][1] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f), sec_current_f - sec_diff_f
+                            arr[k][0] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f)
+                            arr[k][1] = sec_current_f - sec_diff_f
                             print("AFTER ELSE --- DESIRED < CURRENT: ", desired_f, desired_t)
                             print("MISSILE:", arr[k])
                             holder = arr[k]
                             mini += 1
-                        elif sec_diff_f == 0 or sec_diff_t == 0:
-                            if sec_diff_f == 0:
-                                arr[k][1] = desired_f
+                            break
+                        elif sec_diff_f == 0:
+                            if sec_diff_f == 0 and (sec_current_t + sec_diff_t) <= desired_t:
                                 arr[k][0] = desired_t
+                                arr[k][1] = desired_f
+                                print("WHEN DIFF F == 0: ", arr[k])
                                 holder = arr[k]
                                 mini += 1
+                                break
+                            else:
+                                holder = []
+                                break
                     else:
-                        holder = []
+                        pass
+
                 if len(holder) == 0:
                     make_another = i
                     print("Created HIT: ", make_another)
@@ -161,6 +175,7 @@ def defend(missiles):
 
     minimum_missiles = len(arr)
     print("Last ANSWER: ", minimum_missiles)
+    return minimum_missiles
 
     print("Mini: ",mini)
     print("ARR LENGTH: ", len(arr))
@@ -168,7 +183,7 @@ def defend(missiles):
 ## Test Case 1
 #defend([[65, 844],[70, 993],[201, 427],[348, 899],[388, 268],[440, 416],[459, 421],[459, 796],[744, 291],[870, 121]])
 
-# Test Case 2
+## Test Case 2    ## Expected Output: 6
 defend([
 [5, 687],
 [49, 338],
@@ -189,3 +204,105 @@ defend([
 [816, 341],
 [848, 779],
 [880, 276]])
+
+##Test Case 3    ##Expected Output: 16
+"""defend([[27, 490],
+[31, 686],
+[39, 614],
+[47, 452],
+[58, 730],
+[73, 504],
+[73, 260],
+[77, 657],
+[79, 901],
+[109, 319],
+[114, 905],
+[125, 530],
+[129, 657],
+[136, 746],
+[139, 211],
+[155, 429],
+[172, 113],
+[177, 597],
+[189, 376],
+[194, 809],
+[206, 795],
+[215, 76],
+[251, 972],
+[253, 165],
+[264, 880],
+[269, 892],
+[325, 932],
+[328, 649],
+[343, 18],
+[344, 419],
+[351, 251],
+[374, 344],
+[378, 598],
+[386, 978],
+[386, 772],
+[400, 515],
+[414, 424],
+[414, 639],
+[435, 366],
+[438, 82],
+[440, 637],
+[445, 105],
+[446, 387],
+[450, 817],
+[465, 865],
+[477, 891],
+[482, 204],
+[495, 253],
+[495, 353],
+[499, 874],
+[502, 939],
+[506, 802],
+[574, 922],
+[645, 760],
+[652, 698],
+[680, 223],
+[694, 918],
+[700, 453],
+[709, 314],
+[714, 790],
+[716, 232],
+[735, 274],
+[736, 511],
+[769, 120],
+[770, 144],
+[772, 446],
+[773, 205],
+[775, 515],
+[782, 143],
+[797, 753],
+[809, 636],
+[812, 643],
+[823, 121],
+[825, 669],
+[826, 545],
+[827, 689],
+[834, 608],
+[847, 187],
+[855, 946],
+[856, 841],
+[863, 192],
+[871, 61],
+[878, 171],
+[903, 343],
+[915, 874],
+[919, 465],
+[919, 449],
+[928, 709],
+[931, 490],
+[940, 586],
+[942, 586],
+[951, 730],
+[954, 914],
+[970, 271],
+[975, 359],
+[978, 451],
+[982, 94],
+[984, 639],
+[991, 340],
+[995, 147]])"""
