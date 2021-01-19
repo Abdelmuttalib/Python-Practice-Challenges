@@ -80,14 +80,14 @@ def defend(missiles):
     mini = 1
     initial_missile = missiles[0]
     arr = []
-    arr.append(initial_missile)
     initial = [0, 0]
+    chalk = 0
     for i in missiles:
-        place_h = initial_missile
-
 
         if i == initial_missile:
             print("INITIAL SUCCESS:", i, "AND", initial_missile)
+            chalk += 1
+            arr.append(initial_missile)
 
         else:
             print("i VALUE", i)
@@ -133,6 +133,8 @@ def defend(missiles):
                     print("SEC CURRENT T: ", sec_current_t, "SEC CURRENT F: ", sec_current_f)
                     print("DIFF F: ", diff_f)
                     sec_diff_t, sec_diff_f = abs(sec_current_t - desired_t), abs(sec_current_f - desired_f)
+                    print("SEC DIFF F: ", sec_diff_f, "SEC DIFF T: ", sec_diff_t)
+
                     holder = []
 
                     if (desired_t >= sec_current_t) and ((sec_current_f + sec_diff_f == desired_f) or (sec_current_f - sec_diff_f == desired_f)) and (sec_current_t + sec_diff_f <= desired_t):
@@ -142,7 +144,6 @@ def defend(missiles):
                             print("AFTER ELSE --- DESIRED > CURRENT: ", desired_f, desired_t)
                             print("MISSILE:", arr[k])
                             holder = arr[k]
-                            mini += 1
                             break
                         elif desired_f < sec_current_f:
                             arr[k][0] = sec_current_t + sec_diff_f + (sec_diff_t - sec_diff_f)
@@ -150,7 +151,6 @@ def defend(missiles):
                             print("AFTER ELSE --- DESIRED < CURRENT: ", desired_f, desired_t)
                             print("MISSILE:", arr[k])
                             holder = arr[k]
-                            mini += 1
                             break
                         elif sec_diff_f == 0:
                             if sec_diff_f == 0 and (sec_current_t + sec_diff_t) <= desired_t:
@@ -158,7 +158,6 @@ def defend(missiles):
                                 arr[k][1] = desired_f
                                 print("WHEN DIFF F == 0: ", arr[k])
                                 holder = arr[k]
-                                mini += 1
                                 break
                             else:
                                 holder = []
@@ -171,20 +170,22 @@ def defend(missiles):
                     print("Created HIT: ", make_another)
                     print("arr: ", arr)
                     arr.append(make_another)
+                    chalk += 1
                 print("FINISH ???: ", arr, " \ ")
 
     minimum_missiles = len(arr)
     print("Last ANSWER: ", minimum_missiles)
+    print("LAST chalk: ", chalk)
     return minimum_missiles
 
     print("Mini: ",mini)
     print("ARR LENGTH: ", len(arr))
     print("FINAL ARR: ", arr)
-## Test Case 1
-#defend([[65, 844],[70, 993],[201, 427],[348, 899],[388, 268],[440, 416],[459, 421],[459, 796],[744, 291],[870, 121]])
+## Test Case 1 , 10 inputs , ## Expected Output:
+defend([[65, 844],[70, 993],[201, 427],[348, 899],[388, 268],[440, 416],[459, 421],[459, 796],[744, 291],[870, 121]])
 
-## Test Case 2    ## Expected Output: 6
-defend([
+## Test Case 2   19 inputs   ## Expected Output: 6
+"""defend([
 [5, 687],
 [49, 338],
 [63, 853],
@@ -203,9 +204,64 @@ defend([
 [755, 816],
 [816, 341],
 [848, 779],
-[880, 276]])
+[880, 276]])"""
 
-##Test Case 3    ##Expected Output: 16
+##Test Case 3    50 inputs   ##Expected Output: 9
+"""defend([[29, 569],
+[56, 667],
+[73, 131],
+[189, 550],
+[208, 689],
+[210, 76],
+[223, 454],
+[247, 329],
+[251, 451],
+[275, 660],
+[283, 453],
+[283, 89],
+[289, 829],
+[339, 197],
+[343, 106],
+[347, 715],
+[350, 57],
+[358, 299],
+[362, 512],
+[385, 405],
+[401, 898],
+[428, 862],
+[439, 310],
+[450, 83],
+[464, 264],
+[489, 770],
+[546, 790],
+[586, 325],
+[664, 333],
+[672, 210],
+[678, 126],
+[687, 496],
+[707, 123],
+[707, 813],
+[711, 710],
+[725, 758],
+[735, 536],
+[741, 820],
+[799, 507],
+[826, 865],
+[837, 819],
+[847, 53],
+[860, 694],
+[860, 909],
+[893, 433],
+[906, 446],
+[958, 926],
+[985, 127],
+[991, 677],
+[999, 261]])"""
+
+
+
+
+##Test Case 4   100 inputs   ##Expected Output: 16
 """defend([[27, 490],
 [31, 686],
 [39, 614],
@@ -306,3 +362,337 @@ defend([
 [984, 639],
 [991, 340],
 [995, 147]])"""
+
+
+"""
+Created HIT:  [5, 687]
+arr:  []
+IN FINISH: / [[5, 687]]
+arr:  [[5, 687]]
+MISS:  [49, 338]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  49 338
+DIFF's T & F:  44 | 349
+Created HIT:  [49, 338]
+arr:  [[5, 687]]
+IN FINISH: / [[5, 687], [49, 338]]
+arr:  [[5, 687], [49, 338]]
+MISS:  [63, 853]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  63 853
+DIFF's T & F:  58 | 166
+arr:  [[5, 687], [49, 338]]
+MISS:  [63, 853]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  63 853
+DIFF's T & F:  14 | 515
+Created HIT:  [63, 853]
+arr:  [[5, 687], [49, 338]]
+IN FINISH: / [[5, 687], [49, 338], [63, 853]]
+arr:  [[5, 687], [49, 338], [63, 853]]
+MISS:  [93, 150]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  93 150
+DIFF's T & F:  88 | 537
+arr:  [[5, 687], [49, 338], [63, 853]]
+MISS:  [93, 150]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  93 150
+DIFF's T & F:  44 | 188
+arr:  [[5, 687], [49, 338], [63, 853]]
+MISS:  [93, 150]
+ARR INDEX:  [63, 853]
+CURRENT T & F:  63 853
+DESIRED T & F:  93 150
+DIFF's T & F:  30 | 703
+Created HIT:  [93, 150]
+arr:  [[5, 687], [49, 338], [63, 853]]
+IN FINISH: / [[5, 687], [49, 338], [63, 853], [93, 150]]
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150]]
+MISS:  [129, 535]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  129 535
+DIFF's T & F:  124 | 152
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150]]
+MISS:  [129, 535]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  129 535
+DIFF's T & F:  80 | 197
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150]]
+MISS:  [129, 535]
+ARR INDEX:  [63, 853]
+CURRENT T & F:  63 853
+DESIRED T & F:  129 535
+DIFF's T & F:  66 | 318
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150]]
+MISS:  [129, 535]
+ARR INDEX:  [93, 150]
+CURRENT T & F:  93 150
+DESIRED T & F:  129 535
+DIFF's T & F:  36 | 385
+Created HIT:  [129, 535]
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150]]
+IN FINISH: / [[5, 687], [49, 338], [63, 853], [93, 150], [129, 535]]
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150], [129, 535]]
+MISS:  [130, 831]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  130 831
+DIFF's T & F:  125 | 144
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150], [129, 535]]
+MISS:  [130, 831]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  130 831
+DIFF's T & F:  81 | 493
+arr:  [[5, 687], [49, 338], [63, 853], [93, 150], [129, 535]]
+MISS:  [130, 831]
+ARR INDEX:  [63, 853]
+CURRENT T & F:  63 853
+DESIRED T & F:  130 831
+DIFF's T & F:  67 | 22
+DESIRED < CURRENT:  831 130
+MISSILE: [130, 831]
+IN FINISH: / [[5, 687], [49, 338], [130, 831], [93, 150], [129, 535]]
+arr:  [[5, 687], [49, 338], [130, 831], [93, 150], [129, 535]]
+MISS:  [140, 841]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  140 841
+DIFF's T & F:  135 | 154
+arr:  [[5, 687], [49, 338], [130, 831], [93, 150], [129, 535]]
+MISS:  [140, 841]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  140 841
+DIFF's T & F:  91 | 503
+arr:  [[5, 687], [49, 338], [130, 831], [93, 150], [129, 535]]
+MISS:  [140, 841]
+ARR INDEX:  [130, 831]
+CURRENT T & F:  130 831
+DESIRED T & F:  140 841
+DIFF's T & F:  10 | 10
+DESIRED > CURRENT:  841 140
+MISSILE: [140, 841]
+IN FINISH: / [[5, 687], [49, 338], [140, 841], [93, 150], [129, 535]]
+arr:  [[5, 687], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [142, 591]
+ARR INDEX:  [5, 687]
+CURRENT T & F:  5 687
+DESIRED T & F:  142 591
+DIFF's T & F:  137 | 96
+DESIRED < CURRENT:  591 142
+MISSILE: [142, 591]
+IN FINISH: / [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+arr:  [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [144, 581]
+ARR INDEX:  [142, 591]
+CURRENT T & F:  142 591
+DESIRED T & F:  144 581
+DIFF's T & F:  2 | 10
+arr:  [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [144, 581]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  144 581
+DIFF's T & F:  95 | 243
+arr:  [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [144, 581]
+ARR INDEX:  [140, 841]
+CURRENT T & F:  140 841
+DESIRED T & F:  144 581
+DIFF's T & F:  4 | 260
+arr:  [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [144, 581]
+ARR INDEX:  [93, 150]
+CURRENT T & F:  93 150
+DESIRED T & F:  144 581
+DIFF's T & F:  51 | 431
+arr:  [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [144, 581]
+ARR INDEX:  [129, 535]
+CURRENT T & F:  129 535
+DESIRED T & F:  144 581
+DIFF's T & F:  15 | 46
+IN FINISH: / [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+arr:  [[142, 591], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [271, 594]
+ARR INDEX:  [142, 591]
+CURRENT T & F:  142 591
+DESIRED T & F:  271 594
+DIFF's T & F:  129 | 3
+DESIRED > CURRENT:  594 271
+MISSILE: [271, 594]
+IN FINISH: / [[271, 594], [49, 338], [140, 841], [93, 150], [129, 535]]
+arr:  [[271, 594], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [271, 970]
+ARR INDEX:  [271, 594]
+CURRENT T & F:  271 594
+DESIRED T & F:  271 970
+DIFF's T & F:  0 | 376
+arr:  [[271, 594], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [271, 970]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  271 970
+DIFF's T & F:  222 | 632
+arr:  [[271, 594], [49, 338], [140, 841], [93, 150], [129, 535]]
+MISS:  [271, 970]
+ARR INDEX:  [140, 841]
+CURRENT T & F:  140 841
+DESIRED T & F:  271 970
+DIFF's T & F:  131 | 129
+DESIRED > CURRENT:  970 271
+MISSILE: [271, 970]
+IN FINISH: / [[271, 594], [49, 338], [271, 970], [93, 150], [129, 535]]
+arr:  [[271, 594], [49, 338], [271, 970], [93, 150], [129, 535]]
+MISS:  [287, 495]
+ARR INDEX:  [271, 594]
+CURRENT T & F:  271 594
+DESIRED T & F:  287 495
+DIFF's T & F:  16 | 99
+arr:  [[271, 594], [49, 338], [271, 970], [93, 150], [129, 535]]
+MISS:  [287, 495]
+ARR INDEX:  [49, 338]
+CURRENT T & F:  49 338
+DESIRED T & F:  287 495
+DIFF's T & F:  238 | 157
+DESIRED > CURRENT:  495 287
+MISSILE: [287, 495]
+IN FINISH: / [[271, 594], [287, 495], [271, 970], [93, 150], [129, 535]]
+arr:  [[271, 594], [287, 495], [271, 970], [93, 150], [129, 535]]
+MISS:  [294, 191]
+ARR INDEX:  [271, 594]
+CURRENT T & F:  271 594
+DESIRED T & F:  294 191
+DIFF's T & F:  23 | 403
+arr:  [[271, 594], [287, 495], [271, 970], [93, 150], [129, 535]]
+MISS:  [294, 191]
+ARR INDEX:  [287, 495]
+CURRENT T & F:  287 495
+DESIRED T & F:  294 191
+DIFF's T & F:  7 | 304
+arr:  [[271, 594], [287, 495], [271, 970], [93, 150], [129, 535]]
+MISS:  [294, 191]
+ARR INDEX:  [271, 970]
+CURRENT T & F:  271 970
+DESIRED T & F:  294 191
+DIFF's T & F:  23 | 779
+arr:  [[271, 594], [287, 495], [271, 970], [93, 150], [129, 535]]
+MISS:  [294, 191]
+ARR INDEX:  [93, 150]
+CURRENT T & F:  93 150
+DESIRED T & F:  294 191
+DIFF's T & F:  201 | 41
+DESIRED > CURRENT:  191 294
+MISSILE: [294, 191]
+IN FINISH: / [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+arr:  [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [333, 150]
+ARR INDEX:  [271, 594]
+CURRENT T & F:  271 594
+DESIRED T & F:  333 150
+DIFF's T & F:  62 | 444
+arr:  [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [333, 150]
+ARR INDEX:  [287, 495]
+CURRENT T & F:  287 495
+DESIRED T & F:  333 150
+DIFF's T & F:  46 | 345
+arr:  [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [333, 150]
+ARR INDEX:  [271, 970]
+CURRENT T & F:  271 970
+DESIRED T & F:  333 150
+DIFF's T & F:  62 | 820
+arr:  [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [333, 150]
+ARR INDEX:  [294, 191]
+CURRENT T & F:  294 191
+DESIRED T & F:  333 150
+DIFF's T & F:  39 | 41
+arr:  [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [333, 150]
+ARR INDEX:  [129, 535]
+CURRENT T & F:  129 535
+DESIRED T & F:  333 150
+DIFF's T & F:  204 | 385
+IN FINISH: / [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+arr:  [[271, 594], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [488, 643]
+ARR INDEX:  [271, 594]
+CURRENT T & F:  271 594
+DESIRED T & F:  488 643
+DIFF's T & F:  217 | 49
+DESIRED > CURRENT:  643 488
+MISSILE: [488, 643]
+IN FINISH: / [[488, 643], [287, 495], [271, 970], [294, 191], [129, 535]]
+arr:  [[488, 643], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [755, 816]
+ARR INDEX:  [488, 643]
+CURRENT T & F:  488 643
+DESIRED T & F:  755 816
+DIFF's T & F:  267 | 173
+DESIRED > CURRENT:  816 755
+MISSILE: [755, 816]
+IN FINISH: / [[755, 816], [287, 495], [271, 970], [294, 191], [129, 535]]
+arr:  [[755, 816], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [816, 341]
+ARR INDEX:  [755, 816]
+CURRENT T & F:  755 816
+DESIRED T & F:  816 341
+DIFF's T & F:  61 | 475
+arr:  [[755, 816], [287, 495], [271, 970], [294, 191], [129, 535]]
+MISS:  [816, 341]
+ARR INDEX:  [287, 495]
+CURRENT T & F:  287 495
+DESIRED T & F:  816 341
+DIFF's T & F:  529 | 154
+DESIRED < CURRENT:  341 816
+MISSILE: [816, 341]
+IN FINISH: / [[755, 816], [816, 341], [271, 970], [294, 191], [129, 535]]
+arr:  [[755, 816], [816, 341], [271, 970], [294, 191], [129, 535]]
+MISS:  [848, 779]
+ARR INDEX:  [755, 816]
+CURRENT T & F:  755 816
+DESIRED T & F:  848 779
+DIFF's T & F:  93 | 37
+DESIRED < CURRENT:  779 848
+MISSILE: [848, 779]
+IN FINISH: / [[848, 779], [816, 341], [271, 970], [294, 191], [129, 535]]
+arr:  [[848, 779], [816, 341], [271, 970], [294, 191], [129, 535]]
+MISS:  [880, 276]
+ARR INDEX:  [848, 779]
+CURRENT T & F:  848 779
+DESIRED T & F:  880 276
+DIFF's T & F:  32 | 503
+arr:  [[848, 779], [816, 341], [271, 970], [294, 191], [129, 535]]
+MISS:  [880, 276]
+ARR INDEX:  [816, 341]
+CURRENT T & F:  816 341
+DESIRED T & F:  880 276
+DIFF's T & F:  64 | 65
+arr:  [[848, 779], [816, 341], [271, 970], [294, 191], [129, 535]]
+MISS:  [880, 276]
+ARR INDEX:  [271, 970]
+CURRENT T & F:  271 970
+DESIRED T & F:  880 276
+DIFF's T & F:  609 | 694
+arr:  [[848, 779], [816, 341], [271, 970], [294, 191], [129, 535]]
+MISS:  [880, 276]
+ARR INDEX:  [294, 191]
+CURRENT T & F:  294 191
+DESIRED T & F:  880 276
+DIFF's T & F:  586 | 85
+DESIRED > CURRENT:  276 880
+MISSILE: [880, 276]
+IN FINISH: / [[848, 779], [816, 341], [271, 970], [880, 276], [129, 535]]
+FINALLY:  5
+"""
