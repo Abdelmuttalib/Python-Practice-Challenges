@@ -1,5 +1,6 @@
 ## CHALLENGE QUESTION
-"""
+
+
 Update: A slight modification in the problem statement (see below)
 
 Evil Nation A is angry and plans to launch N guided-missiles at the peaceful Nation B in an attempt to wipe out all of Nation B's people.
@@ -71,4 +72,4 @@ Destroy 1 missile at t = 1, f = 1. now at t = 2, there is a missile with frequen
 The launched missile takes 2 units of time to destroy this, hence we need a new hackerX missile to destroy this one.
 The first hackerX missile can destroy the 3rd missile which has the same frequency as itself.
 The same hackerX missile destroys the missile that is hitting its city at t = 5. Thus, we need atleast 2 hackerX missiles.
-"""
+
